@@ -19,13 +19,18 @@ res.status(500).json({error:error})
     }
 }
 
+
+
+
+
+
 exports.getUsers=async(req,res) => {
     try {
         const name=req.user.name;
         console.log(name);
         const data=User.findAll({where:{name:name}})
         console.log(data);
-        res.status(200).json({data})
+        res.status(200).json({data:{name}})
     } catch (error) {
         console.log(error);
         res.status(500).json({error:error})

@@ -10,7 +10,8 @@
 <body>
    <ul id="users">
     </ul>
-     <div id="chat">
+     <div id="chat-container">
+      <ul id="chat"></ul>
      </div>
   <form id="form" onsubmit="sendMessage(event)">
     <input type="hidden" id="id" name="id" ><br><br>
@@ -19,6 +20,9 @@
     <button type="submit" id="send" >Send</button>
     
   </form>
+  <div id="logout">
+    <button id="logout-button">LOGOUT</button>
+  </div>
     
 
     <script src="./chat.js"></script>

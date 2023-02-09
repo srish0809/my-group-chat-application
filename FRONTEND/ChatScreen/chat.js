@@ -1,6 +1,7 @@
  const token=localStorage.getItem('token');
- const messageContainer=document.getElementById('chat')
+ const messageList=document.getElementById('chat')
  let users= document.getElementById('users');
+
 
  function parseJwt (token) {
     var base64Url = token.split('.')[1];
@@ -15,12 +16,12 @@
 async function sendMessage(event){
     event.preventDefault();
           let message=document.getElementById('message').value;
-        let obj={message }
+        let obj={message}
         console.log(obj);
                  try {
                 const response= await axios.post("http://localhost:3000/groupmessage/send-message", obj ,{headers:{"Authorization":token}})
-               
-                location.reload();
+                messageList.innerHTML='';
+               getMessage();
             } catch (error) {
                 document.body.innerHTML += "<h4>Something went wrong !</h4>";
                 console.log(error);
@@ -29,6 +30,7 @@ async function sendMessage(event){
 
          
         }
+        
 
 async function getMessage()
 {
@@ -41,22 +43,22 @@ async function getMessage()
             lastMsgId = oldMessages[oldMessages.length - 1];
         }
     }
-
+    messageList.innerHTML='';
   const response= await axios.get(`http://localhost:3000/groupmessage/get-message?lastMsgId=${lastMsgId}`,{headers:{'Authorization':token}})
  // console.log(response);
  if (response.status === 200) {
     const newMessages = response.data.message;
       let messages = newMessages;
-      console.log(oldMessages);
-      console.log(newMessages);
+     // console.log(oldMessages);
+      //console.log(newMessages);
     if (oldMessages.length > 0) {
         messages = [...oldMessages, ...newMessages];
         console.log(messages);
         
     }
-    for(let i=0;i<messages.length;i++){
-        ShowMessagesOnScreen(messages[i]);
-    }
+   
+    ShowMessagesOnScreen(messages);
+    
     
 
       
@@ -91,16 +93,26 @@ window.addEventListener("DOMContentLoaded",()=>{
    
 })
 
-function ShowMessagesOnScreen(message){
+function ShowMessagesOnScreen(messages){
+    
 
-    let name=message.name;
-     let id = message.id;
-  console.log(name);
-  console.log(id);
-    const messageElement=document.createElement('div');
+    // const messageElement=document.createElement('div');
+    // messageElement.innerText=`${name}: ${message.message}`;
+    // messageContainer.appendChild(messageElement)
+    
+for(let message of messages)
+{
+    
+    messageList.innerHTML+=`<li>${message.name}: ${message.message}</li>`;
+    
+}
+
    
-    messageElement.innerText=`${name}: ${message.message}`;
-    messageContainer.appendChild(messageElement)
 }
 
 
+document.getElementById('logout-button').addEventListener("click",(e)=>{
+    e.preventDefault();
+    localStorage.clear();
+    window.location.href='../login/login.html';
+})

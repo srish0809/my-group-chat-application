@@ -1,5 +1,6 @@
 const GroupChat=require('../models/chat');
 const user=require('../models/user')
+const Group=require('../models/group')
 const jwt=require('../middleware/auth');
 const {Op}=require('sequelize');
 
@@ -9,7 +10,7 @@ exports.sendMessage= async(req,res) => {
      const name=req.user.name;
     const message=req.body.message;
     const userId=req.user.id;
-   
+     
         console.log(message);
     try {
            const data= await GroupChat.create({

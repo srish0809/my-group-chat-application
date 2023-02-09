@@ -29,8 +29,8 @@ async function getUserList(){
     console.log(response);
     if(response.status===200){
         console.log(response);
-          let groups=document.getElementById('user');
-          groups.innerHTML+=`<button> ${response.name} </button>`
+          let groups=document.getElementById('groups');
+          groups.innerHTML+=`  ${response.data.name} <button> Invite </button><br>`
           if(groups.style.display == 'none'){
             groups.style.display = 'block';
         }
